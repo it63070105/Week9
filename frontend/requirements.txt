@@ -1,7 +1,9 @@
 flask
-requests
-base64
+fastapi
+uvicorn[standard]
+python-multipart
+opencv-python-headless
+Pillow
 numpy
-cv2
-json
 matplotlib
+requests
