@@ -74,7 +74,7 @@ def home():
 @app.route('/<string:name>')
 def template(name):
     # Load the image
-    image = cv2.imread("building.jpg")
+    image = cv2.imread(name)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image_string = encode_image(image)
 
