@@ -1,4 +1,7 @@
+import io
 import os
+
+import urllib
 from flask import Flask, render_template
 import requests
 import base64
@@ -20,9 +23,6 @@ def decode_image(image_string):
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     return cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-
-
-image_file = 'myPicture.jpg'
 url        = "http://3.93.181.229:8088"
 
 @app.route('/')
@@ -63,15 +63,18 @@ def home():
     ax2.set_title('Processed image')
 
     # Show the plot
-    plt.show()
-   
-    return render_template("index.html", image=ax2.imshow(processed_image))
+    # plt.show()
+    img = io.BytesIO()
+    plt.savefig(img, format = 'png')
+    img.seek(0)
+    plot_data = urllib.parse.quote(base64.b64encode(img.read()).decode())
+    return render_template("index.html", image=plot_data)
     
 
 @app.route('/<string:name>')
 def template(name):
     # Load the image
-    image = cv2.imread(name)
+    image = cv2.imread("building.jpg")
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image_string = encode_image(image)
 
@@ -103,8 +106,12 @@ def template(name):
     ax2.set_title('Processed image')
 
     # Show the plot
-    plt.show()
-    return render_template("index.html", image=plt.show())
+    # plt.show()
+    img = io.BytesIO()
+    plt.savefig(img, format = 'png')
+    img.seek(0)
+    plot_data = urllib.parse.quote(base64.b64encode(img.read()).decode())
+    return render_template("index.html", image=plot_data)
     
 
 if __name__ == '__main__':
