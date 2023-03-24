@@ -28,9 +28,9 @@ url        = "http://3.93.181.229:8088"
 @app.route('/')
 def home():
    
-   env_var_colour = os.environ['APP_COLOR']
+   env_var_image = os.environ['APP_IMAGE']
    
-   return render_template("index.html", color= env_var_colour)
+   return render_template("index.html", image= env_var_image)
     
 
 @app.route('/<string:name>')
