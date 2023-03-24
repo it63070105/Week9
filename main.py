@@ -11,9 +11,9 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:8080",
-    "http://localhost:8088",
-    "http://localhost:3000",
+    "http://3.93.181.229:8080",
+    "http://3.93.181.229:8088",
+    "http://3.93.181.229:3000",
     "https://stackpython.co"
 ]
 
