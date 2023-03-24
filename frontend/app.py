@@ -31,7 +31,7 @@ def home():
     env_var_image = os.environ['APP_IMAGE']
 
     # Load the image
-    image = cv2.imread("bulding.jpg")
+    image = cv2.imread("building.jpg")
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image_string = encode_image(image)
 
@@ -65,7 +65,7 @@ def home():
     # Show the plot
     plt.show()
    
-    return render_template("index.html", image= plt.show())
+    return render_template("index.html", image=ax2.imshow(processed_image))
     
 
 @app.route('/<string:name>')
