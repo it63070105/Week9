@@ -1,15 +1,29 @@
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
 import numpy as np
 import cv2
 import base64
 from typing import List
-
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:8080",
+    "http://localhost:8088",
+    "http://localhost:3000",
+    "https://stackpython.co"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ImageRequest(BaseModel):
     image: str
@@ -34,7 +48,6 @@ def apply_canny(image):
     edges = cv2.Canny(gray, 100, 200)
     return edges
 
-
 @app.post("/process-image")
 async def process_image(image_request: ImageRequest):
     image = decode_image(image_request.image)
@@ -46,9 +59,10 @@ async def process_image(image_request: ImageRequest):
             "numbers": image_request.numbers,
             "processed_image": processed_image}
 
+@app.post("/process-image/<string:name>")
+async def process_image(name):
+    image = decode_image(name)
+    edges = apply_canny(image)
+    processed_image = encode_image(edges)
 
-
-
-
-
-
+    return {"processed_image": processed_image}
