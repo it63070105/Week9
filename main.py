@@ -59,7 +59,7 @@ async def process_image(image_request: ImageRequest):
             "numbers": image_request.numbers,
             "processed_image": processed_image}
 
-@app.route("/process-image/<string:name>")
+@app.get("/process-image/<string:name>")
 async def process_image_by_name(name):
     image = decode_image(name)
     edges = apply_canny(image)
